@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes dots {
+  0%, 20% { color: transparent; }
+  40%, 60% { color: inherit; }
+  80%, 100% { color: transparent; }
+}
+
+.dots {
+  display: inline-block;
+}
+
+/* ── wave loading effect ── */
+@keyframes wave {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.wave-text {
+  display: inline-block;
+  /* yellow-to-light gradient */
+  background: linear-gradient(
+    90deg,
+    #cccccc 20%,
+    #f5f5f5 50%,
+    #cccccc 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wave 2s linear infinite;
+}
