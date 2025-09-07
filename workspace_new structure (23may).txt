@@ -1,0 +1,58 @@
+workspace_new/
+│
+├── server/
+│   ├── utils/
+│   │   └── email.js
+│   ├── .env
+│   ├── createServiceToken.js
+│   ├── email.js
+│   ├── generateKeys.js
+│   ├── index.js
+│   ├── private.pem
+│   └── public.pem
+│
+├── src/
+│   ├── components/
+│   │   ├── Button.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   └── SplashScreen.tsx
+│   │
+│   ├── contexts/
+│   │   └── AuthContext.tsx
+│   │
+│   ├── pages/
+│   │   ├── DashboardPage.tsx
+│   │   ├── FaceVerificationPage.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── NotFoundPage.tsx
+│   │   ├── OTPPage.tsx
+│   │   └── SignUpPage.tsx
+│   │
+│   ├── types/
+│   │   └── index.ts
+│   │
+│   ├── utils/
+│   │   └── faceRecognition.ts
+│   │
+│   ├── App.tsx
+│   ├── config.ts
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+│
+├── env/
+│
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts

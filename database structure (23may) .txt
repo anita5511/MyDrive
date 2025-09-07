@@ -1,0 +1,116 @@
+database structure 
+
+const initDatabase = async () => {
+  try {
+    // Create users table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    
+    // Create files table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS files (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name TEXT NOT NULL,
+        type TEXT NOT NULL,
+        size INTEGER NOT NULL,
+        storage_path TEXT NOT NULL,
+        iv TEXT,
+        auth_tag TEXT,
+        encrypted BOOLEAN DEFAULT TRUE,
+        owner_id UUID REFERENCES users(id),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    
+    // Create shares table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS shares (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        file_id UUID REFERENCES files(id) ON DELETE CASCADE,
+        token TEXT UNIQUE NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        expires_at TIMESTAMP WITH TIME ZONE
+      );
+    `);
+    
+    // Create user_files table for tracking which users have access to which files
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS user_files (
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        file_id UUID REFERENCES files(id) ON DELETE CASCADE,
+        permission TEXT NOT NULL DEFAULT 'read', -- 'read', 'write'
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (user_id, file_id)
+      );
+    `);
+
+
+    //create music-metadata tables
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS music_metadata (
+        file_id UUID PRIMARY KEY REFERENCES files(id) ON DELETE CASCADE,
+        title TEXT NOT NULL,
+        artist TEXT,
+        album TEXT,
+        cover TEXT,   -- base64 or URL of thumbnail image
+        lyrics TEXT   -- optional lyrics (plain text or JSON string)
+      );
+    `);
+
+    // Video metadata table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS video_metadata (
+        file_id     UUID        PRIMARY KEY REFERENCES files(id) ON DELETE CASCADE,
+        title       TEXT        NOT NULL,
+        description TEXT,
+        duration    INTEGER,     -- duration in seconds
+        thumbnail   TEXT,        -- URL or base64-encoded image
+        resolution  TEXT,        -- e.g. '1920x1080'
+        codec       TEXT,        -- e.g. 'h264', 'vp9'
+        created_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+// OTP table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS otps (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        code TEXT NOT NULL,
+        expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Face data table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS face_data (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        descriptor JSONB NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+//sessions table
+ await pool.query(`
+  CREATE TABLE IF NOT EXISTS sessions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    ip_address TEXT NOT NULL,
+    device_id TEXT NOT NULL,
+    jwt_id TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    revoked BOOLEAN DEFAULT FALSE
+  );
+`);
+

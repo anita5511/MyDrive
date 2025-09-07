@@ -1,0 +1,54 @@
+swarupplay/
+├── .bolt/                          
+├── node_modules/                   
+├── server/   
+│   ├── .env 
+│   ├── storage/                     
+│   ├── index.js                  
+│   ├── bin                    
+│   ├── createServiceToken.js              
+│   ├── generateKeys.js  
+│   ├── public.pem                  
+│   └── private.pem              
+├── src/                            
+│   ├── components/                 
+│   │   ├── ErrorScreen.tsx        
+│   │   ├── Header.tsx             
+│   │   ├── LoadingScreen.tsx      
+│   │   ├── PlayerControls.tsx     
+│   │   ├── RelatedVideos.tsx      
+│   │   ├── YouTubeSuggestions.tsx  
+│   │   └── VideoPlayer.tsx        
+│   ├── hooks/                     
+│   │   ├── useRelatedVideos.ts    
+│   │   ├── useVideoMetadata.ts    
+│   │   ├── useYouTubeVideos.ts
+│   │   ├── useYouTubeSearch.ts
+│   │   └── useVideoPlayer.ts      
+│   ├── types/                     
+│   │   └── index.ts               
+│   ├── context/                     
+│   │   └── AuthContext.tsx               
+│   ├── utils/                     
+│   │   └── format.ts              
+│   ├── pages/                     
+│   │   ├── Dashboard.tsx  		
+│   │   ├── Login.tsx    			
+│   │   ├── Register.tsx
+│   │   └── Watch.tsx 			
+│   ├── App.tsx                    
+│   ├── index.css                  
+│   ├── main.tsx                   
+│   └── vite-env.d.ts              
+├── .env                           
+├── .gitignore                     
+├── eslint.config.js               
+├── index.html                     
+├── package-lock.json              
+├── package.json                   
+├── postcss.config.js                            
+├── tailwind.config.js             
+├── tsconfig.app.json              
+├── tsconfig.json                  
+├── tsconfig.node.json             
+└── vite.config.ts                 
